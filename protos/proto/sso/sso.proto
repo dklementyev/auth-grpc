@@ -8,7 +8,7 @@ option go_package = "dk.sso.v1;ssov1";
 
 service Auth {
     rpc Register(RegisterRequest) returns (RegisterResponse);
-    rpc Login(LoginRequest) returns (LoginResposne);
+    rpc Login(LoginRequest) returns (LoginResponse);
 }
 
 message RegisterRequest {
@@ -26,6 +26,6 @@ message LoginRequest {
     int32 app_id = 3;
 }
 
-message LoginResposne {
+message LoginResponse {
     string token = 1;
 }

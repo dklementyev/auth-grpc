@@ -30,7 +30,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
-	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResposne, error)
+	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 }
 
 type authClient struct {
@@ -50,8 +50,8 @@ func (c *authClient) Register(ctx context.Context, in *RegisterRequest, opts ...
 	return out, nil
 }
 
-func (c *authClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResposne, error) {
-	out := new(LoginResposne)
+func (c *authClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+	out := new(LoginResponse)
 	err := c.cc.Invoke(ctx, Auth_Login_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (c *authClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.C
 // for forward compatibility
 type AuthServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
-	Login(context.Context, *LoginRequest) (*LoginResposne, error)
+	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	mustEmbedUnimplementedAuthServer()
 }
 
@@ -75,7 +75,7 @@ type UnimplementedAuthServer struct {
 func (UnimplementedAuthServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
-func (UnimplementedAuthServer) Login(context.Context, *LoginRequest) (*LoginResposne, error) {
+func (UnimplementedAuthServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
 func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
